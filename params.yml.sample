@@ -1,0 +1,12 @@
+store:
+  id: R369
+  name: Polo Park
+products:
+  - id: MGHP3VC/A
+    name: iPhone 12
+    storage: 64GB
+    color: White
+  - id: MGM53VC/A
+    name: iPhone 12 Pro
+    storage: 128GB
+    color: Graphite
