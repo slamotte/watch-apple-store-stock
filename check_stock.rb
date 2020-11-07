@@ -10,11 +10,4 @@ params = YAML.safe_load(File.read("params.yml")).symbolize_keys
 products = params[:products].map { |product| Product.new(product) }
 stores = params[:stores].map { |store| Store.new(store) }
 
-products.each do |product|
-  puts "Checking #{product}..."
-  stores.each do |store|
-    if store.in_stock?(product)
-      puts "🎉🎉🎉 IN STOCK at #{store} 🎉🎉🎉"
-    end
-  end
-end
+stores.each { |store| store.check_stock(products) }

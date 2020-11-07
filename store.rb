@@ -1,7 +1,7 @@
 require "httparty"
 
 class Store
-  STOCK_URL = "https://www.apple.com/ca/shop/retail/pickup-message?store=%STORE_ID%&parts.0=%PRODUCT_ID%".freeze
+  STOCK_URL = "https://www.apple.com/ca/shop/retail/pickup-message".freeze
 
   attr_reader :id, :name
 
@@ -11,21 +11,32 @@ class Store
     @name = params[:name]
   end
 
-  def in_stock?(product)
-    url = STOCK_URL
-      .sub("%STORE_ID%", id)
-      .sub("%PRODUCT_ID%", product.id)
-    response = HTTParty.get(url, headers: {"content-Type" => "application/json;encoding=UTF-8;charset=UTF-8"})
+  # Returns an array of prducts that are in stock at this store
+  def check_stock(products)
+    params = ["store=#{id}"] + product_params(products)
+    url = "#{STOCK_URL}?#{params.join('&')}"
+    response = HTTParty.get(url)
     unless response.success?
       puts "😨 Error checking stock for URL #{url}"
       return false
     end
 
-    status = response.dig("body", "stores")&.first&.dig("partsAvailability", product.id, "pickupDisplay")
-    status == "available"
+    availabilities = response.dig("body", "stores")&.first&.dig("partsAvailability")
+    return unless availabilities
+
+    in_stock = products.select do |product|
+      availabilities[product.id]&.dig("pickupDisplay") == "available"
+    end.compact
+    return if in_stock.empty?
+
+    in_stock.each do |product|
+      puts "🎉🎉🎉 #{product} is IN STOCK at #{name} 🎉🎉🎉"
+    end
   end
 
-  def to_s
-    name
+  private
+
+  def product_params(products)
+    products.map.with_index { |product, i| "parts.#{i}=#{product.id}" }
   end
 end
