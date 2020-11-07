@@ -1,0 +1,56 @@
+stores:
+  - id: R369
+    name: Polo Park
+products:
+  - id: MGHP3VC/A
+    name: iPhone 12
+    storage: 64GB
+    color: White
+  - id: MGM53VC/A
+    name: iPhone 12 Pro
+    storage: 128GB
+    color: Graphite
+  - id: MGM63VC/A
+    name: iPhone 12 Pro
+    storage: 128GB
+    color: Silver
+  - id: MGM73VC/A
+    name: iPhone 12 Pro
+    storage: 128GB
+    color: Gold
+  - id: MGM83VC/A
+    name: iPhone 12 Pro
+    storage: 128GB
+    color: Pacific Blue
+  - id: MGM93VC/A
+    name: iPhone 12 Pro
+    storage: 256GB
+    color: Graphite
+  - id: MGMA3VC/A
+    name: iPhone 12 Pro
+    storage: 256GB
+    color: Silver
+  - id: MGMC3VC/A
+    name: iPhone 12 Pro
+    storage: 256GB
+    color: Gold
+  - id: MGMD3VC/A
+    name: iPhone 12 Pro
+    storage: 256GB
+    color: Pacific Blue
+  - id: MGM93VC/A
+    name: iPhone 12 Pro
+    storage: 512GB
+    color: Graphite
+  - id: MGMF3VC/A
+    name: iPhone 12 Pro
+    storage: 512GB
+    color: Silver
+  - id: MGMH3VC/A
+    name: iPhone 12 Pro
+    storage: 512GB
+    color: Gold
+  - id: MGMJ3VC/A
+    name: iPhone 12 Pro
+    storage: 512GB
+    color: Pacific Blue
