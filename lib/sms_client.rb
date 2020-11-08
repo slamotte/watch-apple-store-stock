@@ -7,6 +7,8 @@ class SMSClient
   URL = "https://voip.ms/api/v1/rest.php"
   MAX_LEN = 160 - 1
 
+  attr_reader :source, :destinations
+
   def initialize(params)
     @api_username = params[:api_username]
     @api_password = params[:api_password]
@@ -37,5 +39,5 @@ class SMSClient
 
   private
 
-  attr_reader :api_username, :api_password, :source, :destinations
+  attr_reader :api_username, :api_password
 end

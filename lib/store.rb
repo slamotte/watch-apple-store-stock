@@ -31,11 +31,11 @@ class Store
       return false
     end
 
-    availabilities = response.dig("body", "stores")&.first&.dig("partsAvailability")
-    return unless availabilities
+    stock = response.dig("body", "stores")&.first&.dig("partsAvailability")
+    return unless stock
 
     products.select do |product|
-      availabilities[product.id]&.dig("pickupDisplay") == "available"
+      stock[product.id]&.dig("pickupDisplay") == "available"
     end
   end
 
