@@ -2,10 +2,7 @@ require "awesome_print"
 require "byebug"
 require "yaml"
 
-require_relative "hash"
-require_relative "product"
-require_relative "sms_client"
-require_relative "store"
+Dir["lib/**/*.rb"].each { |f| require_relative f }
 
 CHECK_FREQUENCY = 5 * 60 # How many seconds between checks
 
