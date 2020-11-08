@@ -1,7 +1,17 @@
 require "httparty"
 
 class Store
-  STOCK_URL = "https://www.apple.com/ca/shop/retail/pickup-message".freeze
+  STOCK_CHECK_URL = "https://www.apple.com/ca/shop/retail/pickup-message".freeze
+  REQUEST_HEADERS = {
+    "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:82.0) Gecko/20100101 Firefox/82.0",
+    "Accept" => "application/json, text/javascript, */*; q=0.01",
+    "Accept-Language" => "en-CA,en-US;q=0.7,en;q=0.3",
+    "Accept-Encoding" => "gzip, deflate, br",
+    "X-Requested-With" => "XMLHttpRequest",
+    "Connection" => "keep-alive",
+    "Pragma" => "no-cache",
+    "Cache-Control" => "no-cache"
+  }.freeze
 
   attr_reader :id, :name
 
@@ -14,8 +24,8 @@ class Store
   # Returns an array of prducts that are in stock at this store
   def in_stock(products)
     params = ["store=#{id}"] + product_params(products)
-    url = "#{STOCK_URL}?#{params.join('&')}"
-    response = HTTParty.get(url)
+    url = "#{STOCK_CHECK_URL}?#{params.join('&')}"
+    response = HTTParty.get(url, headers: REQUEST_HEADERS)
     unless response.success?
       puts "😨 Error checking stock for URL #{url}"
       return false

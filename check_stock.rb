@@ -18,7 +18,7 @@ loop do
   in_stock = store.in_stock(products)
   unless in_stock.empty?
     in_stock.each do |product|
-      msg = "🎉🎉🎉 #{product} is IN STOCK at #{store.name} 🎉🎉🎉"
+      msg = "#{product} is IN STOCK at #{store.name}!"
       puts msg
 
       # Don't alert about this product again
