@@ -10,6 +10,6 @@ class Product
   end
 
   def to_s
-    [name, storage, color].join(" ")
+    [name, storage, color].compact.join(" ")
   end
 end
