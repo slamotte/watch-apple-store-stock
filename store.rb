@@ -12,7 +12,7 @@ class Store
   end
 
   # Returns an array of prducts that are in stock at this store
-  def check_stock(products)
+  def in_stock(products)
     params = ["store=#{id}"] + product_params(products)
     url = "#{STOCK_URL}?#{params.join('&')}"
     response = HTTParty.get(url)
@@ -24,13 +24,8 @@ class Store
     availabilities = response.dig("body", "stores")&.first&.dig("partsAvailability")
     return unless availabilities
 
-    in_stock = products.select do |product|
+    products.select do |product|
       availabilities[product.id]&.dig("pickupDisplay") == "available"
-    end.compact
-    return if in_stock.empty?
-
-    in_stock.each do |product|
-      puts "🎉🎉🎉 #{product} is IN STOCK at #{name} 🎉🎉🎉"
     end
   end
 

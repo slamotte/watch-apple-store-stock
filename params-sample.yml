@@ -1,3 +1,10 @@
+sms:
+  api_username: me@example.com
+  api_password: my-api-password
+  source: 2045551212
+  destinations:
+    - 2045551212
+    - 2045551212
 store:
   id: R369
   name: Polo Park
