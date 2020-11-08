@@ -2,7 +2,7 @@ require "awesome_print"
 require "byebug"
 require "yaml"
 
-Dir["lib/**/*.rb"].each { |f| require_relative f }
+Dir[File.join(%w[lib ** *.rb])].each { |f| require_relative f }
 
 CHECK_FREQUENCY = 5 * 60 # How many seconds between checks
 
