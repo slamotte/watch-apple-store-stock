@@ -8,7 +8,12 @@ CHECK_FREQUENCY = 5 * 60 # How many seconds between checks
 
 params = YAML.safe_load(File.read("params.yml")).symbolize_keys
 store = Store.new(params[:store])
-products = params[:products].map { |product| Product.new(product) }
+
+unless params[:products]
+  puts "No products are defined"
+  exit
+end
+products = params[:products]&.map { |product| Product.new(product) }
 puts "Watching store #{store.id} (#{store.name}) for the following items:"
 products.each { |p| puts "- #{p}" }
 
@@ -23,7 +28,7 @@ end
 
 puts "Stock will be checked every #{CHECK_FREQUENCY} seconds"
 loop do
-  store.in_stock(products).each do |product|
+  store.in_stock(products)&.each do |product|
     msg = "🎉🎉🎉 #{product} is IN STOCK at #{store.name}!"
     puts msg
 
@@ -32,4 +37,7 @@ loop do
   end
 
   sleep CHECK_FREQUENCY
+rescue StandardError => e
+  puts e.message
+  exit
 end

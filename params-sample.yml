@@ -5,9 +5,13 @@ sms:
   destinations:
     - 2045551212
     - 2045551212
+
 store:
   id: R369
   name: Polo Park
+  url: https://www.apple.com/ca/shop/retail/pickup-message # For Canada
+  # url: https://www.apple.com/shop/retail/pickup-message # For USA
+
 products:
   - id: MGHP3VC/A
     name: iPhone 12
