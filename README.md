@@ -34,6 +34,7 @@ Copy the `params.sample.yml` file to `params.yml` and update the following entri
   For example, if you try to watch American products on the Canadian website, an error will occur.
 * `products`: a list of product info. Each product has the following attributes:
   * `id`: the unique id<sup>2</sup> of the product
+  * `option`: the option of the product. Can be used for combos e.g. watch + strap (optional)
   * `name`: a descriptive name for the product
   * `storage`: a value for the product's storage (optional)
   * `color`: a value for the product's color (optional)

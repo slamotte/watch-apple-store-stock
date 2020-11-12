@@ -1,9 +1,10 @@
 class Product
-  attr_reader :id, :name, :storage, :color
+  attr_reader :id, :option, :name, :storage, :color
 
   def initialize(params)
     params = params.symbolize_keys
     @id = params[:id]
+    @option = params[:option]
     @name = params[:name]
     @storage = params[:storage]
     @color = params[:color]

@@ -23,7 +23,7 @@ class Store
 
   # Returns an array of prducts that are in stock at this store
   def in_stock(products)
-    params = ["store=#{id}"] + product_params(products)
+    params = ["store=#{id}"] + product_params(products).flatten
     url = "#{self.url}?#{params.join('&')}"
     response = HTTParty.get(url, headers: REQUEST_HEADERS)
     unless response.success?
@@ -45,6 +45,11 @@ class Store
   private
 
   def product_params(products)
-    products.map.with_index { |product, i| "parts.#{i}=#{product.id}" }
+    products.map.with_index do |product, i|
+      [].tap do |result|
+        result << "parts.#{i}=#{product.id}"
+        result << "option.#{i}=#{product.option}" if product.option
+      end
+    end
   end
 end
