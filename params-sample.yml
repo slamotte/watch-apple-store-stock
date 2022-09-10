@@ -1,3 +1,6 @@
+# Refresh period in seconds
+refresh: 300
+
 sms:
   api_username: me@example.com
   api_password: my-api-password

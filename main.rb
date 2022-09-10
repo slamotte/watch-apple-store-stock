@@ -4,16 +4,15 @@ require "yaml"
 
 Dir[File.join(%w[lib ** *.rb])].each { |f| require_relative f }
 
-CHECK_FREQUENCY = 5 * 60 # How many seconds between checks
-
 params = YAML.safe_load(File.read("params.yml")).symbolize_keys
-store = Store.new(params[:store])
 
 unless params[:products]
   puts "No products are defined"
   exit
 end
 products = params[:products]&.map { |product| Product.new(product) }
+
+store = Store.new(params[:store])
 puts "Watching store #{store.id} (#{store.name}) for the following items:"
 products.each { |p| puts "- #{p}" }
 
@@ -26,17 +25,18 @@ else
   puts "Notifications will not be sent"
 end
 
-puts "Stock will be checked every #{CHECK_FREQUENCY} seconds"
+refresh_period = params[:refresh]&.to_i || 300
+puts "Stock will be checked every #{refresh_period} seconds"
 loop do
   store.in_stock(products)&.each do |product|
-    msg = "🎉🎉🎉 #{product} is IN STOCK at #{store.name}!"
+    msg = "🎉🎉🎉 #{product} is IN STOCK at #{store.name} as of #{Time.now.strftime('%b %-d, %Y at %I:%M:%S%P')}"
     puts msg
 
     # Don't alert about this product again (unless sending the SMS fails)
     products.delete(product) unless sms && !sms.send(msg)
   end
 
-  sleep CHECK_FREQUENCY
+  sleep refresh_period
 rescue StandardError => e
   puts e.message
   exit
