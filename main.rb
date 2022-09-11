@@ -8,7 +8,7 @@ params = YAML.safe_load(File.read("params.yml")).symbolize_keys
 
 unless params[:products]
   puts "No products are defined"
-  exit
+  exit 1
 end
 products = params[:products]&.map { |product| Product.new(product) }
 
@@ -37,7 +37,10 @@ loop do
   end
 
   sleep refresh_period
+rescue Interrupt
+  puts "\nExiting..."
+  exit 130
 rescue StandardError => e
   puts e.message
-  exit
+  exit 1
 end
