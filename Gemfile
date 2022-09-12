@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem "awesome_print"
 gem "byebug"
 gem "httparty"
-gem "awesome_print"
+gem 'filewatcher'
