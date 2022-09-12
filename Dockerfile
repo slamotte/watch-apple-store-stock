@@ -7,6 +7,6 @@ COPY Gemfile* ./
 RUN bundle install
 
 COPY lib/ lib/
-COPY main.rb monitor params.yml ./
+COPY main.rb monitor ./
 
 ENTRYPOINT ["bundle", "exec", "ruby main.rb"]
