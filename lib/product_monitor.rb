@@ -15,8 +15,8 @@ class ProductMonitor
         msg = "🎉🎉🎉 #{product} is IN STOCK at #{store.name} as of #{Time.now.strftime('%b %-d, %Y at %I:%M:%S%P')}"
         puts msg
 
-        # Don't alert about this product again (unless sending the SMS fails)
-        products.delete(product) unless sms && !sms.send(msg)
+        # Don't alert about this product again (unless notification fails)
+        products.delete(product) if notify(msg)
       end
 
       sleep refresh_period
@@ -57,5 +57,15 @@ class ProductMonitor
 
     @refresh_period = params[:refresh]&.to_i || 300
     puts "Stock will be checked every #{refresh_period} seconds"
+  end
+
+  def notify(msg)
+    return sms.send(msg) if sms
+
+    `osascript -e 'tell app "System Events" to display dialog "#{msg}"'`
+    true
+  rescue StandardError => e
+    puts "Failed to send notification: #{e.message}"
+    false
   end
 end
