@@ -14,6 +14,7 @@ class ProductMonitor
       store.in_stock(products)&.each do |product|
         msg = "🎉🎉🎉 #{product} is IN STOCK at #{store.name} as of #{Time.now.strftime('%b %-d, %Y at %I:%M:%S%P')}"
         puts msg
+        puts "  Visit #{product.url}" unless product.url.nil?
 
         # Don't alert about this product again (unless notification fails)
         products.delete(product) if notify(msg)
