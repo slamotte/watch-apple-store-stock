@@ -14,6 +14,9 @@ class SMSClient
     @api_password = params[:api_password]
     @source = params[:source]
     @destinations = Array(params[:destinations])
+
+    puts "SMS notifications will be sent to the following:"
+    destinations.each { |d| puts "- #{d}" }
   end
 
   # Returns true if the message was sent successfully to everyone

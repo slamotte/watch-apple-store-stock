@@ -12,9 +12,11 @@ class ProductMonitor
   def run
     loop do
       store.in_stock(products)&.each do |product|
-        msg = "🎉🎉🎉 #{product} is IN STOCK at #{store.name} as of #{Time.now.strftime('%b %-d, %Y at %I:%M:%S%P')}"
+        msg = [
+          "🎉🎉🎉 #{product} is IN STOCK at #{store.name} as of #{Time.now.strftime('%b %-d, %Y at %I:%M:%S%P')}",
+          ("See #{product.url} for details" if product.url),
+        ].compact.join("\n")
         puts msg
-        puts "  Visit #{product.url}" unless product.url.nil?
 
         # Don't alert about this product again (unless notification fails)
         products.delete(product) if notify(msg)
@@ -32,7 +34,7 @@ class ProductMonitor
 
   private
 
-  attr_reader :products, :refresh_period, :sms, :store
+  attr_reader :products, :refresh_period, :imessage, :sms, :store
 
   def initialize(params_filename)
     params = YAML.safe_load(File.read(params_filename)).symbolize_keys
@@ -49,24 +51,22 @@ class ProductMonitor
 
     sms_params = params[:sms]&.symbolize_keys
     @sms = SMSClient.new(sms_params) if sms_params
-    if sms
-      puts "Notifications will be sent to the following:"
-      sms.destinations.each { |d| puts "- #{d}" }
-    else
-      puts "Notifications will not be sent"
-    end
+
+    imessage_params = params[:iMessage]&.symbolize_keys
+    @imessage = IMessage.new(imessage_params) if imessage_params
 
     @refresh_period = params[:refresh]&.to_i || 300
     puts "Stock will be checked every #{refresh_period} seconds"
   end
 
   def notify(msg)
-    return sms.send(msg) if sms
-
-    `osascript -e 'tell app "System Events" to display dialog "#{msg}"'`
-    true
+    [
+      (sms.send(msg) if sms),
+      (imessage.send(msg) if imessage),
+    ].all?(&:itself)
   rescue StandardError => e
     puts "Failed to send notification: #{e.message}"
+    puts e.backtrace.join("\n")
     false
   end
 end
