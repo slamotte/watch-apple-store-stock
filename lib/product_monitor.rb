@@ -63,7 +63,7 @@ class ProductMonitor
     [
       (sms.send(msg) if sms),
       (imessage.send(msg) if imessage),
-    ].all?(&:itself)
+    ].compact.all?(&:itself)
   rescue StandardError => e
     puts "Failed to send notification: #{e.message}"
     puts e.backtrace.join("\n")
