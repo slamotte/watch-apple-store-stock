@@ -13,7 +13,7 @@ That product is then removed from the list of products so we don't send out the 
 
 ## Requirements
 
-* Ruby 2.5.8
+* Ruby 3.3.4
 * rubygems
 * bundler
 * experience working with your browser's developer tools<sup>2</sup>, otherwise this utility probably isn't for you.
