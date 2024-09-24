@@ -39,7 +39,7 @@ Copy the `params.sample.yml` file to `params.yml` and update the following entri
   * `storage`: a value for the product's storage (optional)
   * `color`: a value for the product's color (optional)
 
-Run ` bundle install` to install the required gems.
+Run `bundle install` to install the required gems.
 Launch the utility using `./monitor`
 
 _<sup>1</sup> You need an account at https://voip.ms in order to send out notifications.
