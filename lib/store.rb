@@ -40,6 +40,10 @@ class Store
     products.select do |product|
       stock[product.id]&.dig("pickupDisplay") == "available"
     end
+  rescue StandardError => e
+    puts "😨 Error checking stock: #{e.message}"
+    puts "Response: #{response.inspect}"
+    puts "Stock checking continues..."
   end
 
   private
