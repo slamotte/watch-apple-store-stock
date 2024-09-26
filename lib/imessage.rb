@@ -10,7 +10,7 @@ class IMessage
 
   def send(msg)
     destinations.all? do |destination|
-      cmd = "tell application \"Messages\" to send \"#{msg}\" to participant \"(204) 227-3529\" of account id (id of 1st account whose service type = iMessage)"
+      cmd = "tell application \"Messages\" to send \"#{msg}\" to participant \"#{destination}\" of account id (id of 1st account whose service type = iMessage)"
       `osascript -e '#{cmd}'`
     end
   end
